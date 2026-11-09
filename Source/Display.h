@@ -43,7 +43,7 @@ private:
     double sr = 44100, pos = 0, bpm = 120, refPpq = 0, zoom = 5;
     juce::int64 newest = 0, refIdx = 0;
     int cap = 1, look = 0;
-    double lastCx = 0.5, headFrac = 0.94;
+    double lastCx = 0.5, headFrac = 1.0;
 
     double xToAbs (float x) const;
     float freezeDivFromY (float yFrac) const;

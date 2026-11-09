@@ -182,11 +182,11 @@ void Display::render (Graphics& gi, int w, int h, float sx)
     const float wobble = vBatt > 0 ? (float) std::sin (nowS * 1000.0 / 180.0) * vBatt * 5 * sx : 0.0f;
     // playhead position: centred when there is lookahead to show on the right, pushed to the right when there is none
     {
-        double target = jlimit (0.5, 0.94, 1.0 - ((double) look / sr) / zoom - 0.06);
+        double target = look > 0 ? jlimit (0.5, 0.99, 1.0 - ((double) look / sr) / zoom) : 1.0;
         headFrac += (target - headFrac) * 0.15;
         if (std::abs (target - headFrac) < 0.0005) headFrac = target;
     }
-    const float cx = (float) (w * headFrac) + jit + wobble;
+    const float cx = jmin ((float) (w * headFrac), (float) w - 2.0f * sx) + jit + wobble;
     lastCx = (double) cx / w;
     auto xOf = [&] (double idx) { return (float) (cx + (idx - pos) / spp); };
     const float fs = jmax (8.0f, 13.0f * sx);
