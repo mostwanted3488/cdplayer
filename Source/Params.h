@@ -98,15 +98,15 @@ inline const std::vector<FactoryPreset>& factoryPresets()
     static const std::vector<FactoryPreset> p {
         { "Clean", {} },
         { "Discman in pocket", { { pid::skip, .35f }, { pid::battery, .3f }, { pid::bass, .65f }, { pid::hp, .45f }, { pid::scratch, .08f }, { pid::tape, .6f } } },
-        { "Car CD 2003", { { pid::bass, .9f }, { pid::room, .35f }, { pid::crush, .12f }, { pid::skip, .12f }, { pid::roomType, 1 },
-                           { "eq0", 5 }, { "eq1", 4 }, { "eq2", 2 }, { "eq4", -1 }, { "eq6", 1 }, { "eq7", 2 }, { "eq8", 1 } } },
-        { "Broken laser", { { pid::skip, .8f }, { pid::scratch, .88f }, { pid::crush, .5f }, { pid::gate, .3f }, { pid::gateDiv, 2 } } },
-        { "Sunday morning", { { pid::speed, .86f }, { pid::room, .4f }, { pid::crush, .3f }, { pid::hp, .2f }, { pid::roomType, 0 } } },
-        { "Rewind time", { { pid::rev, 1 }, { pid::room, .5f }, { pid::esp, .4f }, { pid::roomType, 2 } } },
-        { "Chopped & screwed", { { pid::speed, .72f }, { pid::esp, .35f }, { pid::room, .3f }, { pid::bass, .5f }, { pid::roomType, 2 } } },
+        { "Car CD 2003", { { pid::bass, .9f }, { pid::room, .35f }, { pid::crush, .12f }, { pid::skip, .12f }, { pid::roomType, 1.0f },
+                           { "eq0", 5.0f }, { "eq1", 4.0f }, { "eq2", 2.0f }, { "eq4", -1.0f }, { "eq6", 1.0f }, { "eq7", 2.0f }, { "eq8", 1.0f } } },
+        { "Broken laser", { { pid::skip, .8f }, { pid::scratch, .88f }, { pid::crush, .5f }, { pid::gate, .3f }, { pid::gateDiv, 2.0f } } },
+        { "Sunday morning", { { pid::speed, .86f }, { pid::room, .4f }, { pid::crush, .3f }, { pid::hp, .2f }, { pid::roomType, 0.0f } } },
+        { "Rewind time", { { pid::rev, 1.0f }, { pid::room, .5f }, { pid::esp, .4f }, { pid::roomType, 2.0f } } },
+        { "Chopped & screwed", { { pid::speed, .72f }, { pid::esp, .35f }, { pid::room, .3f }, { pid::bass, .5f }, { pid::roomType, 2.0f } } },
         { "Nightcore", { { pid::speed, 1.25f }, { pid::bass, .3f } } },
-        { "Pitch up", { { pid::pitch, 4 } } },
-        { "Trance gate", { { pid::gate, .9f }, { pid::gateDiv, 1 }, { pid::gateShape, 0 }, { pid::esp, .3f }, { pid::room, .25f }, { pid::roomType, 2 } } },
+        { "Pitch up", { { pid::pitch, 4.0f } } },
+        { "Trance gate", { { pid::gate, .9f }, { pid::gateDiv, 1.0f }, { pid::gateShape, 0.0f }, { pid::esp, .3f }, { pid::room, .25f }, { pid::roomType, 2.0f } } },
     };
     return p;
 }
