@@ -125,7 +125,7 @@ private:
     double sr = 44100;
     juce::int64 W = 0;           // samples written so far
     int L = 0;                   // lookahead (samples)
-    std::atomic<int> lookaheadIdx { 2 };
+    std::atomic<int> lookaheadIdx { 0 };
     std::atomic<bool> latencyDirty { false };
 
     double pos = 0, rate = 1;

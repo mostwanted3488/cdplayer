@@ -180,7 +180,13 @@ void Display::render (Graphics& gi, int w, int h, float sx)
     if (flashSkip > 0) { jit = (rng.nextFloat() - 0.5f) * 14 * sx * flashSkip; flashSkip *= 0.82f; if (flashSkip < 0.05f) flashSkip = 0; }
     const double nowS = Time::getMillisecondCounterHiRes() / 1000.0;
     const float wobble = vBatt > 0 ? (float) std::sin (nowS * 1000.0 / 180.0) * vBatt * 5 * sx : 0.0f;
-    const float cx = (float) w / 2 + jit + wobble;
+    // playhead position: centred when there is lookahead to show on the right, pushed to the right when there is none
+    {
+        double target = jlimit (0.5, 0.94, 1.0 - ((double) look / sr) / zoom - 0.06);
+        headFrac += (target - headFrac) * 0.15;
+        if (std::abs (target - headFrac) < 0.0005) headFrac = target;
+    }
+    const float cx = (float) (w * headFrac) + jit + wobble;
     lastCx = (double) cx / w;
     auto xOf = [&] (double idx) { return (float) (cx + (idx - pos) / spp); };
     const float fs = jmax (8.0f, 13.0f * sx);

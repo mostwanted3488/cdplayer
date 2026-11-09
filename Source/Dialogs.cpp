@@ -191,7 +191,7 @@ FxDialog::FxDialog (CDPlayerAudioProcessor& p) : Win95Dialog ("Effects Propertie
     lookCombo.setSelectedItemIndex (p.getLookaheadIndex(), dontSendNotification);
     lookCombo.onChange = [this] { proc.setLookaheadIndex (lookCombo.getSelectedItemIndex()); };
     pane (3).add (line ({ { &label ("Lookahead"), &lookCombo } }), 26);
-    pane (3).add (hint ("In FL Studio the tempo stays locked: Speed bends the pitch like a tape. Lookahead lets you see and scratch ahead; FL compensates the delay, switch it Off while recording."), 62);
+    pane (3).add (hint ("In FL Studio the tempo stays locked: Speed bends the pitch like a tape. Lookahead (off by default = zero latency) lets you see and scratch ahead; FL then delays the project by that amount."), 62);
 
     for (auto* b : { &shuffleBtn, &resetBtn, &okBtn }) addAndMakeVisible (b);
     shuffleBtn.onClick = [this] { if (onShuffle) onShuffle(); };

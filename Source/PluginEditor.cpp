@@ -420,7 +420,7 @@ void CDPlayerAudioProcessorEditor::timerCallback()
     double now = Time::getMillisecondCounterHiRes() / 1000.0;
     if (proc.effective (pid::scratch) >= 0.85f && proc.motor.load() && ! shaded && ! errDlg.isVisible() && now > nextErr)
     {
-        if (nextErr == 0 || now - nextErr > 20) nextErr = now + 2.5 + Random::getSystemRandom().nextDouble() * 4;
+        if (nextErr <= 0 || now - nextErr > 20) nextErr = now + 2.5 + Random::getSystemRandom().nextDouble() * 4;
         else showError();
     }
 }

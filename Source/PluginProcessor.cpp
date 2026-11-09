@@ -15,7 +15,7 @@ CDPlayerAudioProcessor::CDPlayerAudioProcessor()
     uiState.setProperty ("style", "classic", nullptr);
     uiState.setProperty ("grid", true, nullptr);
     uiState.setProperty ("zoom", 5.0, nullptr);
-    uiState.setProperty ("look", 2, nullptr);
+    uiState.setProperty ("look", 0, nullptr);
     uiState.setProperty ("cBg", "ff1a1a2e", nullptr);
     uiState.setProperty ("cWave", "ffff4fd8", nullptr);
     uiState.setProperty ("cHead", "ffffffff", nullptr);
@@ -651,7 +651,7 @@ void CDPlayerAudioProcessor::setStateInformation (const void* data, int sizeInBy
         {
             uiState.copyPropertiesFrom (ui, nullptr);
             state.removeChild (ui, nullptr);
-            lookaheadIdx = jlimit (0, 3, (int) uiState.getProperty ("look", 2));
+            lookaheadIdx = jlimit (0, 3, (int) uiState.getProperty ("look", 0));
             setLatencySamples (jmin ((int) std::round (lookaheadSeconds (lookaheadIdx.load()) * sr), jmax (1, capacity / 4)));
         }
         apvts.replaceState (state);

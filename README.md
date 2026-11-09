@@ -34,7 +34,8 @@ Chaque mise à jour du code est compilée automatiquement par GitHub. Les fichie
 
 Le plugin est un **effet** : il traite le son de la piste où il est placé (ou de tout le mix sur le Master).
 
-- **Lookahead** (Disc → Lookahead, 1 s par défaut) : le plugin garde 1 s d'avance pour afficher et scratcher ce qui arrive. FL Studio compense ce délai automatiquement. Mets-le sur **Off** pendant que tu enregistres une voix ou joues au clavier.
+- **Zéro latence par défaut** : la waveform montre ce qui vient de jouer (tête de lecture à droite).
+- **Lookahead** (Disc → Lookahead : 0,5 s, 1 s ou 2 s) : optionnel. Le plugin garde de l'avance pour afficher et scratcher ce qui arrive (tête de lecture au centre, comme dans la vidéo), mais FL Studio retarde alors tout le projet de cette durée. À éviter pendant que tu enregistres ou joues au clavier.
 - **Mémoire** : les ~60 dernières secondes sont gardées. Scratch, cues, freeze, reverse et A–B jouent dedans.
 - **Slip mode** (activé par défaut) : quand tu lâches un scratch, une cue ou un freeze, le son reprend pile là où serait le morceau → tu restes toujours calé sur le beat.
 - **Grille** : calée sur le tempo et la position de FL Studio.
