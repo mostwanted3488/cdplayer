@@ -1,0 +1,84 @@
+name: Build CD Player FX
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            name: Windows
+          - os: macos-14
+            name: macOS
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure (Windows)
+        if: runner.os == 'Windows'
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Configure (macOS, universal arm64 + x86_64)
+        if: runner.os == 'macOS'
+        run: cmake -S . -B build -G Xcode -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13
+
+      - name: Build
+        run: cmake --build build --config Release --parallel 4
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $src = "build/CDPlayerFX_artefacts/Release/VST3/CD Player FX.vst3"
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          Copy-Item -Recurse $src "dist/CD Player FX.vst3"
+          Compress-Archive -Path "dist/CD Player FX.vst3" -DestinationPath "CDPlayerFX-Windows-VST3.zip"
+
+      - name: Package (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          VST3="build/CDPlayerFX_artefacts/Release/VST3/CD Player FX.vst3"
+          AU="build/CDPlayerFX_artefacts/Release/AU/CD Player FX.component"
+          codesign --force --deep --sign - "$VST3"
+          codesign --force --deep --sign - "$AU"
+          mkdir -p dist
+          cp -R "$VST3" dist/
+          cp -R "$AU" dist/
+          lipo -info "dist/CD Player FX.vst3/Contents/MacOS/CD Player FX"
+          (cd dist && ditto -c -k --keepParent "CD Player FX.vst3" ../CDPlayerFX-macOS-VST3.zip)
+          (cd dist && ditto -c -k --keepParent "CD Player FX.component" ../CDPlayerFX-macOS-AU.zip)
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CDPlayerFX-${{ matrix.name }}
+          path: CDPlayerFX-*.zip
+
+  release:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: CD Player FX (build ${{ github.run_number }})
+          make_latest: true
+          body: |
+            Téléchargements automatiques du plugin CD Player FX.
+            - **Windows** : CDPlayerFX-Windows-VST3.zip
+            - **Mac** : CDPlayerFX-macOS-VST3.zip (VST3) et CDPlayerFX-macOS-AU.zip (Audio Unit)
+            Instructions d'installation : voir le README.
+          files: out/*.zip
